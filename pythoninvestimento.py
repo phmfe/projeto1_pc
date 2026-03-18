@@ -15,7 +15,7 @@ perc_lci = float(input('Percentual do CDI - LCI (%): '))/100
 taxa_fii = float(input('Rentabilidade do FII (%):'))/100
 meta = float(input('Meta financeira (R$): '))
 
-#conversao XDI
+#conversao 
 cdi_mensal = math.pow((1+cdi_anual), 1/12) - 1
 #total investido
 total_investido = capital + (aporte * meses)
@@ -52,6 +52,8 @@ desvio_fii = statistics.stdev(lista_fii)
 # Data de resgate
 data_atual = datetime.datetime.now()
 data_resgate = data_atual + datetime.timedelta(days=meses * 30)
+meta_valor = max(montante_cdb_liquido, montante_lci, montante_poupanca, media_fii)
+meta_atingidas = meta_valor >= meta
 
 # Saída
 barra_cdb = "█" * int(montante_cdb_liquido / 1000)
@@ -81,8 +83,5 @@ print("-" * 30)
 print("FII Mediana:", locale.currency(mediana_fii, grouping=True))
 print("FII Desvio Padrão:", locale.currency(desvio_fii, grouping=True))
 
-if media_fii >= meta:
-    print("Meta alcançada!")
-else:
-    print("Meta não alcançada.")
-
+print(f'Meta atingida? {meta_atingidas}')
+    
