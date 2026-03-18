@@ -53,7 +53,7 @@ desvio_fii = statistics.stdev(lista_fii)
 data_atual = datetime.datetime.now()
 data_resgate = data_atual + datetime.timedelta(days=meses * 30)
 
-# CALCULO DOS BLOCOS ASCII (1 bloco para cada R$ 1.000)
+# Saída
 barra_cdb = "█" * int(montante_cdb_liquido / 1000)
 barra_lci = "█" * int(montante_lci / 1000)
 barra_poup = "█" * int(montante_poupanca / 1000)
