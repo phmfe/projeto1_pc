@@ -6,7 +6,7 @@ import locale
 
 locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
 #ENTRADAS
-capita = float(input('capital inicial: '))
+capital = float(input('capital inicial: '))
 aporte = float(input('Aporte mensal: '))
 meses = float(input('Prazo(meses)'))
 cdi_anual = float(input('CDI anual (%): '))/100
@@ -23,7 +23,8 @@ total_investido = capital + (aporte * meses)
 #CDB
 taxa_cdb = cdi_mensal * perc_cdb
 montante_cdb = (capital * math.pow((1+taxa_cdb),meses))+(aporte * meses)
-lucro_cdb = montante_cdb - total_investido + (lucro_cdb * 0.85)
+lucro_cdb = montante_cdb - total_investido 
+montante_cdb_liquido = total_investido + (lucro_cdb * 0.85)
 
 #LCI/LCI
 taxa_lci =  cdi_mensal * perc_lci
@@ -35,7 +36,7 @@ montante_poupanca = (capital * math.pow((1+taxa_poupanca),meses))
 +(aporte*meses)
 
 # FII
-valor_fii_base = (capita * math.pow((1 + taxa_fii), meses)) + (aporte * (math.pow((1 + taxa_fii), meses) - 1) / taxa_fii)
+valor_fii_base = (capital * math.pow((1 + taxa_fii), meses)) + (aporte * (math.pow((1 + taxa_fii), meses) - 1) / taxa_fii)
 
 s1 = valor_fii_base * (1 + random.uniform(-0.03, 0.03))
 s2 = valor_fii_base * (1 + random.uniform(-0.03, 0.03))
@@ -52,14 +53,31 @@ desvio_fii = statistics.stdev(lista_fii)
 data_atual = datetime.datetime.now()
 data_resgate = data_atual + datetime.timedelta(days=meses * 30)
 
+# CALCULO DOS BLOCOS ASCII (1 bloco para cada R$ 1.000)
+barra_cdb = "█" * int(montante_cdb_liquido / 1000)
+barra_lci = "█" * int(montante_lci / 1000)
+barra_poup = "█" * int(montante_poupanca / 1000)
+barra_fii = "█" * int(media_fii / 1000)
+
 # Print final
 print("-" * 30)
 print("Data de Resgate:", data_resgate.strftime('%d/%m/%Y'))
 print("Total Investido:", locale.currency(total_investido, grouping=True))
-print("CDB Líquido:", locale.currency(montante_cdb, grouping=True))
-print("LCI/LCA:", locale.currency(montante_lci, grouping=True))
-print("Poupança:", locale.currency(montante_poupanca, grouping=True))
-print("FII Média:", locale.currency(media_fii, grouping=True))
+print("-" * 30)
+
+print(f"CDB Líquido: {locale.currency(montante_cdb_liquido, grouping=True)}")
+print(f"Grafico: {barra_cdb}")
+
+print(f"\nLCI/LCA: {locale.currency(montante_lci, grouping=True)}")
+print(f"Grafico: {barra_lci}")
+
+print(f"\nPoupança: {locale.currency(montante_poupanca, grouping=True)}")
+print(f"Grafico: {barra_poup}")
+
+print(f"\nFII Média: {locale.currency(media_fii, grouping=True)}")
+print(f"Grafico: {barra_fii}")
+
+print("-" * 30)
 print("FII Mediana:", locale.currency(mediana_fii, grouping=True))
 print("FII Desvio Padrão:", locale.currency(desvio_fii, grouping=True))
 
